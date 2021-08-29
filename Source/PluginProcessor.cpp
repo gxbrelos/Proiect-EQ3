@@ -95,6 +95,17 @@ void ProiectEQ3AudioProcessor::prepareToPlay (double sampleRate, int samplesPerB
 {
     // Use this method as the place to do any pre-playback
     // initialisation that you need..
+
+    juce::dsp::ProcessSpec spec;
+
+    spec.maximumBlockSize = samplesPerBlock;
+
+    spec.numChannels = 1;
+
+    spec.sampleRate = sampleRate;
+
+    leftChain.prepare(spec);
+    rightChain.prepare(spec);
 }
 
 void ProiectEQ3AudioProcessor::releaseResources()
@@ -150,12 +161,17 @@ void ProiectEQ3AudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, j
     // the samples and the outer loop is handling the channels.
     // Alternatively, you can process the samples with the channels
     // interleaved by keeping the same state.
-    for (int channel = 0; channel < totalNumInputChannels; ++channel)
-    {
-        auto* channelData = buffer.getWritePointer (channel);
+    
+    juce::dsp::AudioBlock<float> block(buffer);
 
-        // ..do something to the data...
-    }
+    auto leftBlock = block.getSingleChannelBlock(0);
+    auto rightBlock = block.getSingleChannelBlock(1);
+
+    juce::dsp::ProcessContextReplacing<float> leftContext(leftBlock);
+    juce::dsp::ProcessContextReplacing<float> rightContext(rightBlock);
+
+    leftChain.process(leftContext);
+    rightChain.process(rightContext);
 }
 
 //==============================================================================
@@ -166,7 +182,7 @@ bool ProiectEQ3AudioProcessor::hasEditor() const
 
 juce::AudioProcessorEditor* ProiectEQ3AudioProcessor::createEditor()
 {
-  //  return new ProiectEQ3AudioProcessorEditor (*this);
+  //  Aici trebuie modificat la un moment dat! return new ProiectEQ3AudioProcessorEditor (*this);
     return new juce::GenericAudioProcessorEditor(*this);
 }
 
