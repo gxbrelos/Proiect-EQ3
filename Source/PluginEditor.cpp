@@ -10,7 +10,7 @@
 #include "PluginEditor.h"
 
 //==============================================================================
-SimpleEQAudioProcessorEditor::SimpleEQAudioProcessorEditor(SimpleEQAudioProcessor& p)
+ProiectEQ3AudioProcessorEditor::ProiectEQ3AudioProcessorEditor(ProiectEQ3AudioProcessor& p)
     : AudioProcessorEditor(&p), audioProcessor(p)
 {
     // Make sure that before the constructor has finished, you've set the
@@ -18,12 +18,12 @@ SimpleEQAudioProcessorEditor::SimpleEQAudioProcessorEditor(SimpleEQAudioProcesso
     setSize(400, 300);
 }
 
-SimpleEQAudioProcessorEditor::~SimpleEQAudioProcessorEditor()
+ProiectEQ3AudioProcessorEditor::~ProiectEQ3AudioProcessorEditor()
 {
 }
 
 //==============================================================================
-void SimpleEQAudioProcessorEditor::paint(juce::Graphics& g)
+void ProiectEQ3AudioProcessorEditor::paint(juce::Graphics& g)
 {
     // (Our component is opaque, so we must completely fill the background with a solid colour)
     g.fillAll(getLookAndFeel().findColour(juce::ResizableWindow::backgroundColourId));
@@ -33,7 +33,7 @@ void SimpleEQAudioProcessorEditor::paint(juce::Graphics& g)
     g.drawFittedText("Hello World!", getLocalBounds(), juce::Justification::centred, 1);
 }
 
-void SimpleEQAudioProcessorEditor::resized()
+void ProiectEQ3AudioProcessorEditor::resized()
 {
     // This is generally where you'll want to lay out the positions of any
     // subcomponents in your editor..

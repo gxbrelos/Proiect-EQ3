@@ -10,7 +10,7 @@
 #include "PluginEditor.h"
 
 //==============================================================================
-SimpleEQAudioProcessor::SimpleEQAudioProcessor()
+ProiectEQ3AudioProcessor::ProiectEQ3AudioProcessor()
 #ifndef JucePlugin_PreferredChannelConfigurations
     : AudioProcessor(BusesProperties()
 #if ! JucePlugin_IsMidiEffect
@@ -24,17 +24,17 @@ SimpleEQAudioProcessor::SimpleEQAudioProcessor()
 {
 }
 
-SimpleEQAudioProcessor::~SimpleEQAudioProcessor()
+ProiectEQ3AudioProcessor::~ProiectEQ3AudioProcessor()
 {
 }
 
 //==============================================================================
-const juce::String SimpleEQAudioProcessor::getName() const
+const juce::String ProiectEQ3AudioProcessor::getName() const
 {
     return JucePlugin_Name;
 }
 
-bool SimpleEQAudioProcessor::acceptsMidi() const
+bool ProiectEQ3AudioProcessor::acceptsMidi() const
 {
 #if JucePlugin_WantsMidiInput
     return true;
@@ -43,7 +43,7 @@ bool SimpleEQAudioProcessor::acceptsMidi() const
 #endif
 }
 
-bool SimpleEQAudioProcessor::producesMidi() const
+bool ProiectEQ3AudioProcessor::producesMidi() const
 {
 #if JucePlugin_ProducesMidiOutput
     return true;
@@ -52,7 +52,7 @@ bool SimpleEQAudioProcessor::producesMidi() const
 #endif
 }
 
-bool SimpleEQAudioProcessor::isMidiEffect() const
+bool ProiectEQ3AudioProcessor::isMidiEffect() const
 {
 #if JucePlugin_IsMidiEffect
     return true;
@@ -61,37 +61,37 @@ bool SimpleEQAudioProcessor::isMidiEffect() const
 #endif
 }
 
-double SimpleEQAudioProcessor::getTailLengthSeconds() const
+double ProiectEQ3AudioProcessor::getTailLengthSeconds() const
 {
     return 0.0;
 }
 
-int SimpleEQAudioProcessor::getNumPrograms()
+int ProiectEQ3AudioProcessor::getNumPrograms()
 {
     return 1;   // NB: some hosts don't cope very well if you tell them there are 0 programs,
                 // so this should be at least 1, even if you're not really implementing programs.
 }
 
-int SimpleEQAudioProcessor::getCurrentProgram()
+int ProiectEQ3AudioProcessor::getCurrentProgram()
 {
     return 0;
 }
 
-void SimpleEQAudioProcessor::setCurrentProgram(int index)
+void ProiectEQ3AudioProcessor::setCurrentProgram(int index)
 {
 }
 
-const juce::String SimpleEQAudioProcessor::getProgramName(int index)
+const juce::String ProiectEQ3AudioProcessor::getProgramName(int index)
 {
     return {};
 }
 
-void SimpleEQAudioProcessor::changeProgramName(int index, const juce::String& newName)
+void ProiectEQ3AudioProcessor::changeProgramName(int index, const juce::String& newName)
 {
 }
 
 //==============================================================================
-void SimpleEQAudioProcessor::prepareToPlay(double sampleRate, int samplesPerBlock)
+void ProiectEQ3AudioProcessor::prepareToPlay(double sampleRate, int samplesPerBlock)
 {
     // Use this method as the place to do any pre-playback
     // initialisation that you need..
@@ -111,14 +111,14 @@ void SimpleEQAudioProcessor::prepareToPlay(double sampleRate, int samplesPerBloc
 
 }
 
-void SimpleEQAudioProcessor::releaseResources()
+void ProiectEQ3AudioProcessor::releaseResources()
 {
     // When playback stops, you can use this as an opportunity to free up any
     // spare memory, etc.
 }
 
 #ifndef JucePlugin_PreferredChannelConfigurations
-bool SimpleEQAudioProcessor::isBusesLayoutSupported(const BusesLayout& layouts) const
+bool ProiectEQ3AudioProcessor::isBusesLayoutSupported(const BusesLayout& layouts) const
 {
 #if JucePlugin_IsMidiEffect
     juce::ignoreUnused(layouts);
@@ -143,7 +143,7 @@ bool SimpleEQAudioProcessor::isBusesLayoutSupported(const BusesLayout& layouts) 
 }
 #endif
 
-void SimpleEQAudioProcessor::processBlock(juce::AudioBuffer<float>& buffer, juce::MidiBuffer& midiMessages)
+void ProiectEQ3AudioProcessor::processBlock(juce::AudioBuffer<float>& buffer, juce::MidiBuffer& midiMessages)
 {
     juce::ScopedNoDenormals noDenormals;
     auto totalNumInputChannels = getTotalNumInputChannels();
@@ -176,26 +176,26 @@ void SimpleEQAudioProcessor::processBlock(juce::AudioBuffer<float>& buffer, juce
 }
 
 //==============================================================================
-bool SimpleEQAudioProcessor::hasEditor() const
+bool ProiectEQ3AudioProcessor::hasEditor() const
 {
     return true; // (change this to false if you choose to not supply an editor)
 }
 
-juce::AudioProcessorEditor* SimpleEQAudioProcessor::createEditor()
+juce::AudioProcessorEditor* ProiectEQ3AudioProcessor::createEditor()
 {
-    //    return new SimpleEQAudioProcessorEditor (*this);
+    //    return new ProiectEQ3AudioProcessorEditor (*this);
     return new juce::GenericAudioProcessorEditor(*this);
 }
 
 //==============================================================================
-void SimpleEQAudioProcessor::getStateInformation(juce::MemoryBlock& destData)
+void ProiectEQ3AudioProcessor::getStateInformation(juce::MemoryBlock& destData)
 {
     // You should use this method to store your parameters in the memory block.
     // You could do that either as raw data, or use the XML or ValueTree classes
     // as intermediaries to make it easy to save and load complex data.
 }
 
-void SimpleEQAudioProcessor::setStateInformation(const void* data, int sizeInBytes)
+void ProiectEQ3AudioProcessor::setStateInformation(const void* data, int sizeInBytes)
 {
     // You should use this method to restore your parameters from this memory block,
     // whose contents will have been created by the getStateInformation() call.
@@ -216,7 +216,7 @@ ChainSettings getChainSettings(juce::AudioProcessorValueTreeState& apvts)
     return settings;
 }
 
-void SimpleEQAudioProcessor::updatePeakFilter(const ChainSettings& chainSettings)
+void ProiectEQ3AudioProcessor::updatePeakFilter(const ChainSettings& chainSettings)
 {
     auto peakCoefficients = juce::dsp::IIR::Coefficients<float>::makePeakFilter(getSampleRate(),
         chainSettings.peakFreq,
@@ -227,12 +227,12 @@ void SimpleEQAudioProcessor::updatePeakFilter(const ChainSettings& chainSettings
     updateCoefficients(rightChain.get<ChainPositions::Peak>().coefficients, peakCoefficients);
 }
 
-void SimpleEQAudioProcessor::updateCoefficients(Coefficients& old, const Coefficients& replacements)
+void ProiectEQ3AudioProcessor::updateCoefficients(Coefficients& old, const Coefficients& replacements)
 {
     *old = *replacements;
 }
 
-void SimpleEQAudioProcessor::updateLowCutFilters(const ChainSettings& chainSettings)
+void ProiectEQ3AudioProcessor::updateLowCutFilters(const ChainSettings& chainSettings)
 {
     auto cutCoefficients = juce::dsp::FilterDesign<float>::designIIRHighpassHighOrderButterworthMethod(chainSettings.lowCutFreq,
         getSampleRate(),
@@ -244,7 +244,7 @@ void SimpleEQAudioProcessor::updateLowCutFilters(const ChainSettings& chainSetti
     updateCutFilter(leftLowCut, cutCoefficients, chainSettings.lowCutSlope);
 }
 
-void SimpleEQAudioProcessor::updateHighCutFilters(const ChainSettings& chainSettings)
+void ProiectEQ3AudioProcessor::updateHighCutFilters(const ChainSettings& chainSettings)
 {
     auto highCutCoefficients = juce::dsp::FilterDesign<float>::designIIRLowpassHighOrderButterworthMethod(chainSettings.highCutFreq,
         getSampleRate(),
@@ -257,7 +257,7 @@ void SimpleEQAudioProcessor::updateHighCutFilters(const ChainSettings& chainSett
     updateCutFilter(rightHighCut, highCutCoefficients, chainSettings.highCutSlope);
 }
 
-void SimpleEQAudioProcessor::updateFilters()
+void ProiectEQ3AudioProcessor::updateFilters()
 {
     auto chainSettings = getChainSettings(apvts);
 
@@ -266,7 +266,7 @@ void SimpleEQAudioProcessor::updateFilters()
     updateHighCutFilters(chainSettings);
 }
 
-juce::AudioProcessorValueTreeState::ParameterLayout SimpleEQAudioProcessor::createParameterLayout()
+juce::AudioProcessorValueTreeState::ParameterLayout ProiectEQ3AudioProcessor::createParameterLayout()
 {
     juce::AudioProcessorValueTreeState::ParameterLayout layout;
 
@@ -314,5 +314,5 @@ juce::AudioProcessorValueTreeState::ParameterLayout SimpleEQAudioProcessor::crea
 // This creates new instances of the plugin..
 juce::AudioProcessor* JUCE_CALLTYPE createPluginFilter()
 {
-    return new SimpleEQAudioProcessor();
+    return new ProiectEQ3AudioProcessor();
 }
